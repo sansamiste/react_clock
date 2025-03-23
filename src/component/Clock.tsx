@@ -17,10 +17,10 @@ export class Clock extends React.Component<Props, State> {
     today: currentDate(),
   };
 
-  timerId: number | null = null;
+  timerId: ReturnType<typeof setInterval> | null = null;
 
   componentDidMount(): void {
-    this.timerId = window.setInterval(() => {
+    this.timerId = setInterval(() => {
       this.setState({ today: currentDate() });
     }, 1000);
   }
@@ -38,8 +38,8 @@ export class Clock extends React.Component<Props, State> {
   }
 
   componentWillUnmount(): void {
-    if (this.timerId !== null) {
-      window.clearInterval(this.timerId);
+    if (this.timerId) {
+      clearInterval(this.timerId);
     }
   }
 
@@ -47,9 +47,7 @@ export class Clock extends React.Component<Props, State> {
     return (
       <div className="Clock">
         <strong className="Clock__name">{this.props.clockName}</strong>
-
         {' time is '}
-
         <span className="Clock__time">{this.state.today}</span>
       </div>
     );
